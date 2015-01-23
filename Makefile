@@ -14,3 +14,9 @@ all.csv:
 	csvstack -g aaa,asian,contemporary,dats,jka,p+d,paintings,photo,videos *.csv \
 		| sed '1 s/^.*$$/group,original,renamed,object,description,credit,source,contact,permissions,recieved?,passQC?,ready?,revision?,notes/' \
 		> all.csv
+
+check-description-and-credit:
+	@csvgrep -c1 -i -r '^video' all.csv | csvcut -c2,3,5,6 | csvjson \
+		| node check-description-and-credit.js \
+		| json2csv -f file,desc,exifDesc,credit,exifCredit \
+		> differences.csv
