@@ -18,5 +18,6 @@ all.csv:
 check-description-and-credit:
 	@csvgrep -c1 -i -r '^video' all.csv | csvcut -c2,3,5,6 | csvjson \
 		| node check-description-and-credit.js \
-		| json2csv -f file,desc,exifDesc,credit,exifCredit \
+		| jq '.' > differences.json
+	json2csv -i differences.json -f file,desc,exifDesc,credit,exifCredit \
 		> differences.csv
