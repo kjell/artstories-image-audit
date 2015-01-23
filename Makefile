@@ -9,3 +9,8 @@ csvs:
 	j -N 6 $(sheet) > p+d.csv
 	j -N 7 $(sheet) > photo.csv
 	j -N 8 $(sheet) > videos.csv
+
+all.csv:
+	csvstack -g aaa,asian,contemporary,dats,jka,p+d,paintings,photo,videos *.csv \
+		| sed '1 s/^.*$$/group,original,renamed,object,description,credit,source,contact,permissions,recieved?,passQC?,ready?,revision?,notes/' \
+		> all.csv
