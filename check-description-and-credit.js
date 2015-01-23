@@ -17,12 +17,12 @@ spreadsheet.map(function(row) {
 
       if(row.description != exif.Description) {
         diff.desc = row.description
-        diff.exifDesc = exif.Description
+        if(exif.Description) diff.exifDesc = exif.Description
         _diff = true
       }
       if(row.credit != exif.Credit) {
         diff.credit = row.credit
-        diff.exifCredit = exif.Credit
+        if(exif.Credit) diff.exifCredit = exif.Credit
         _diff = true
       }
       if(_diff) {
