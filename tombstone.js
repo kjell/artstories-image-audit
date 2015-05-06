@@ -1,11 +1,14 @@
 module.exports = function(meta) {
+	cultureOrCountryContinent = meta.life_date || 
+		meta.country && meta.country + ', ' + meta.continent ||
+		meta.continent
+
 	var tomb = [
-		meta.artist && meta.artist + ", " + meta.life_date,
-		meta.title,
-		meta.dated,
+		meta.artist && meta.artist + ", " + cultureOrCountryContinent,
+		meta.title +', '+ meta.dated,
 		meta.medium,
-		meta.creditline + ' ' + meta.accession_number
+		meta.creditline + ', ' + meta.accession_number
 	]
 
-	return tomb.join("\n")
+	return tomb.join("\n").trim()
 }

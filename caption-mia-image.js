@@ -9,12 +9,12 @@ var redis = Redis.createClient({
 // Redis.debug_mode = true
 
 var es = new require('elasticsearch').Client({
-  host: process.env.ES_URL+'/mediabin/object_images',
+  host: process.env.ES_URL+'/mediabin/',
 })
 
 var miaCaptionQ = async.queue(function(filename, callback) {
 	// return callback('test')
-  es.search({q: filename, size: 1, fields: ["id", "filename"]}).then(function (result) {
+  es.search({q: filename+'*', size: 1, fields: ["id", "filename"]}).then(function (result) {
 		var hit = result.hits.hits[0]
 		var id = hit && hit.fields.id[0]
 		if(id) {
@@ -28,7 +28,7 @@ var miaCaptionQ = async.queue(function(filename, callback) {
 			callback('error')
 		}
 	})
-}, 1)
+}, 3)
 
 module.exports = {
 	q: miaCaptionQ,
