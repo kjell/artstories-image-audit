@@ -10,8 +10,8 @@ delete existingCredits['']
 captioned = {}
 
 spreadsheet.forEach(function(row) {
-	var orig = row.original.replace('.tif', '')
-	var renamed = row.renamed && row.renamed.replace('.tif', '') || orig
+	var orig = row.original.replace(/\.(tif|jpg)/, '').trim()
+	var renamed = row.renamed && row.renamed.replace(/\.(tif|jpg)/, '').trim() || orig
 	var existingCredit = existingCredits[orig] || existingCredits[renamed]
 	var newCredit = existingCredit || {}
   if(captioned[renamed || orig]) return
@@ -20,7 +20,7 @@ spreadsheet.forEach(function(row) {
 		findInternalCaption.q.push(orig, function(result, f) {
 			if(result == 'error') return console.error('error on ', orig)
 
-			var credit = newCredits[orig.replace('.tif', '')]
+      var credit = newCredits[orig.replace(/\.(tif|jpg)/, '')]
 			newCredit.description = tombstone(result)
 		})
 	} else {
@@ -37,7 +37,7 @@ spreadsheet.forEach(function(row) {
     newCredit.credit = newCredit.credit || newCredit.oldCredit
   }
 
-	newCredits[(renamed || orig).replace('.tif', '')] = newCredit
+	newCredits[(renamed || orig).replace(/\.(tif|jpg)/, '')] = newCredit
   captioned[renamed || orig] = true
 })
 
