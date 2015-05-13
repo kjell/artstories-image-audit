@@ -16,12 +16,14 @@ spreadsheet.forEach(function(row) {
 	var newCredit = existingCredit || {}
   if(captioned[renamed || orig]) return
 
-	if(orig == renamed && orig.match(/mia_|PCD|clark_/i)) {
-		findInternalCaption.q.push(orig, function(result, f) {
-			if(result == 'error') return console.error('error on ', orig)
-
-      var credit = newCredits[orig.replace(/\.(tif|jpg)/, '')]
-			newCredit.description = tombstone(result)
+	if(orig == renamed && orig.match(/mia|PCD|clark_/i)) {
+		findInternalCaption.q.push(orig, function(error, result, f) {
+			if(error) {
+        console.error('error on ', orig, error)
+      } else {
+        var credit = newCredits[orig.replace(/\.(tif|jpg)/, '')]
+        newCredit.description = tombstone(result)
+      }
 		})
 	} else {
 		if(existingCredit) {

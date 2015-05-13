@@ -19,13 +19,13 @@ var miaCaptionQ = async.queue(function(filename, callback) {
 		var id = hit && hit.fields.id[0]
 		if(id) {
 			redis.hget('object:'+~~(id/1000), id, function(err, reply) {
-				if(err) return callback('error')
+				if(err) return callback("error - id not in redis? "+id)
 				var meta = JSON.parse(reply)
 				meta.filename = filename
-				return callback(meta)
+				return callback(null, meta)
 			})
 		} else {
-			callback('error')
+			callback('error - no id')
 		}
 	})
 }, 3)
