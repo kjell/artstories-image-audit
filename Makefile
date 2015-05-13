@@ -1,5 +1,6 @@
 sheet = TDX\ MIA\ ArtStories\ –\ Image\ Permissions\ Tracking.xlsx
 csvs:
+	[[ -f $(sheet) ]] || mv ~/Downloads/$(sheet) .
 	j -N 0 $(sheet) > departments/aaa.csv
 	j -N 1 $(sheet) > departments/asian-art.csv
 	j -N 2 $(sheet) > departments/contemporary.csv
