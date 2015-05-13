@@ -16,34 +16,34 @@ spreadsheet.forEach(function(row) {
 	var newCredit = existingCredit || {}
   if(captioned[renamed || orig]) return
 
-	if(orig == renamed && orig.match(/mia|PCD|clark_/i)) {
-		findInternalCaption.q.push(orig, function(error, result, f) {
-			if(error) {
+  if(orig == renamed && orig.match(/mia|PCD|clark_/i)) {
+    findInternalCaption.q.push(orig, function(error, result, f) {
+      if(error) {
         console.error('error on ', orig, error)
       } else {
         var credit = newCredits[orig.replace(/\.(tif|jpg)/, '')]
         newCredit.description = tombstone(result)
       }
-		})
-	} else {
-		if(existingCredit) {
-			newCredit.oldDescription = existingCredit.description
-			newCredit.oldCredit = existingCredit.credit
-			newCredit.description = row.description
-			newCredit.credit = row.credit
-		}
-	}
+    })
+  } else {
+    if(existingCredit) {
+      newCredit.oldDescription = existingCredit.description
+      newCredit.oldCredit = existingCredit.credit
+      newCredit.description = row.description
+      newCredit.credit = row.credit
+    }
+  }
 
   if(orig.match(/2013_TDXAfrica/)) {
     newCredit.description = newCredit.description || newCredit.oldDescription
     newCredit.credit = newCredit.credit || newCredit.oldCredit
   }
 
-	newCredits[(renamed || orig).replace(/\.(tif|jpg)/, '')] = newCredit
+  newCredits[(renamed || orig).replace(/\.(tif|jpg)/, '')] = newCredit
   captioned[renamed || orig] = true
 })
 
 findInternalCaption.q.drain = function() {
-	console.log(JSON.stringify(newCredits))
-	findInternalCaption.done()
+  console.log(JSON.stringify(newCredits))
+  findInternalCaption.done()
 }
