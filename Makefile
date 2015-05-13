@@ -26,5 +26,5 @@ check-description-and-credit:
 new-credits:
 	@curl cdn.dx.artsmia.org/credits.json -o artstories-credits.json
 	@csvgrep -c1 -i -r '^video' all.csv | csvcut -c2,3,5,6 | ag -v '^,+$$' \
-	| csvjson | node update-credits-with-spreadsheet-data.js | tee new-credits.json
+	| csvjson | node update-credits-with-spreadsheet-data.js > new-credits.json
 	scp new-credits.json dx:/apps/cdn/credits.json
