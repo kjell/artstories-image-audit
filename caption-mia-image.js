@@ -13,9 +13,9 @@ var es = new require('elasticsearch').Client({
 })
 
 var miaCaptionQ = async.queue(function(filename, callback) {
-  // return callback('test')
-  es.search({q: filename+'*', size: 1, fields: ["id", "filename"]}).then(function (result) {
-    var hit = result.hits.hits[0]
+  var fn = filename.replace(/_crop/i, '')
+  es.search({q: '"'+fn+'*"', size: 1, fields: ["id", "filename"]}).then(function (result) {
+    var hit = result.hits.hits.filter(function(hit) { return hit.fields.id })[0]
     var id = hit && hit.fields.id[0]
     if(id) {
       redis.hget('object:'+~~(id/1000), id, function(err, reply) {
