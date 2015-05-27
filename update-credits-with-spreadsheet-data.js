@@ -16,7 +16,7 @@ spreadsheet.forEach(function(row) {
 	var newCredit = existingCredit || {}
   if(captioned[renamed || orig]) return
 
-  if(orig == renamed && orig.match(/mia|PCD|clark_/i)) {
+  if(orig == renamed && orig.match(/mia|PCD|clark_/i) && !orig.match(/mia_4447b|PCD20001031_0772_IMG0014/)) {
     findInternalCaption.q.push(orig, function(error, result, f) {
       if(error) {
         console.error('error on ', orig, error)
